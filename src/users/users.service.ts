@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IdDto } from 'src/utils/dto/id.dto';
 
 @Injectable()
 export class UsersService {
@@ -19,8 +20,8 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne({ id }: IdDto) {
+    return this.usersRepository.findOneBy({ userId: id });
   }
   findUserByEmail(email: string) {
     return this.usersRepository.findOneBy({ email: email });
@@ -30,11 +31,12 @@ export class UsersService {
     return this.usersRepository.findOneBy({ username: username });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return updateUserDto;
+  async update({ id }: IdDto, updateUserDto: UpdateUserDto) {
+    await this.usersRepository.update(id, updateUserDto);
+    return this.usersRepository.findOneBy({ userId: id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove({ id }: IdDto) {
+    return await this.usersRepository.delete(id);
   }
 }
