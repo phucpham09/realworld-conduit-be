@@ -10,9 +10,7 @@ import {
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
-import { Public } from 'src/utils/decorators/public.decorator';
 
-@Public()
 @Controller('tags')
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
