@@ -2,14 +2,17 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Article } from './entities/article.entity';
 import { IdDto } from 'src/utils/dto/id.dto';
 import { User } from 'src/users/entities/user.entity';
+import { Tag } from 'src/tags/entities/tag.entity';
 
 @Injectable()
 export class ArticlesService {
   constructor(
+    @InjectRepository(Tag)
+    private readonly tagRepository: Repository<Tag>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(Article)
@@ -17,13 +20,17 @@ export class ArticlesService {
   ) {}
   async create(id: number, createArticleDto: CreateArticleDto) {
     const user = await this.userRepository.findOneBy({ userid: id });
+    const tags = await this.tagRepository.findBy({
+      tagid: In(createArticleDto.tagIds),
+    });
     const res = await this.articleRepository.save({
       ...createArticleDto,
+      tags,
       user,
     });
     return this.articleRepository.findOne({
       where: { articleid: res.articleid },
-      relations: ['user'],
+      relations: ['user', 'tags'],
     });
   }
 

@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
 export class CreateArticleDto {
   @IsString()
@@ -9,4 +9,6 @@ export class CreateArticleDto {
   description: string;
   @IsString()
   body: string;
+  @IsArray()
+  tagIds: number[];
 }
