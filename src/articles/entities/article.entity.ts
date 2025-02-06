@@ -1,11 +1,11 @@
 import { User } from 'src/users/entities/user.entity';
 import { RegistryDate } from 'src/utils/common/registryDate';
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Article {
-  @PrimaryColumn()
-  articleId: number;
+  @PrimaryGeneratedColumn()
+  articleid: number;
 
   @Column()
   title: string;

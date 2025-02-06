@@ -21,7 +21,7 @@ export class UsersService {
   }
 
   findOne({ id }: IdDto) {
-    return this.usersRepository.findOneBy({ userId: id });
+    return this.usersRepository.findOneBy({ userid: id });
   }
   findUserByEmail(email: string) {
     return this.usersRepository.findOneBy({ email: email });
@@ -33,7 +33,7 @@ export class UsersService {
 
   async update({ id }: IdDto, updateUserDto: UpdateUserDto) {
     await this.usersRepository.update(id, updateUserDto);
-    return this.usersRepository.findOneBy({ userId: id });
+    return this.usersRepository.findOneBy({ userid: id });
   }
 
   async remove({ id }: IdDto) {
