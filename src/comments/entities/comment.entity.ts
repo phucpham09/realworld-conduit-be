@@ -1,3 +1,4 @@
+import { Article } from 'src/articles/entities/article.entity';
 import { User } from 'src/users/entities/user.entity';
 import { RegistryDate } from 'src/utils/common/registryDate';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
@@ -11,4 +12,6 @@ export class Comment {
   registryDate: RegistryDate;
   @ManyToOne(() => User, (user) => user.comments)
   user: User;
+  @ManyToOne(() => Article, (article) => article.comments)
+  article: Article;
 }
