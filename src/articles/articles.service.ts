@@ -35,7 +35,7 @@ export class ArticlesService {
   }
 
   findAll() {
-    return this.articleRepository.find({ relations: ['user'] });
+    return this.articleRepository.find({ relations: ['user', 'tags'] });
   }
 
   findOne({ id }: IdDto) {
@@ -44,8 +44,15 @@ export class ArticlesService {
 
   async update({ id }: IdDto, updateArticleDto: UpdateArticleDto) {
     const article = await this.articleRepository.findOneBy({ articleid: id });
+    const tags = await this.tagRepository.findBy({
+      tagid: In(updateArticleDto.tagIds),
+    });
     if (article) {
-      await this.articleRepository.update(id, updateArticleDto);
+      await this.articleRepository.save({
+        ...article,
+        ...updateArticleDto,
+        tags,
+      });
     } else {
       throw new HttpException('Article Not Found', HttpStatus.BAD_REQUEST);
     }
