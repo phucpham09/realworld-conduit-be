@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -22,14 +22,20 @@ export class TagsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} tag`;
+    return this.tagsRepository.findOneBy({ tagid: id });
   }
 
-  update(id: number, updateTagDto: UpdateTagDto) {
-    return updateTagDto;
+  async update(id: number, updateTagDto: UpdateTagDto) {
+    const tag = await this.tagsRepository.findOneBy({ tagid: id });
+    if (tag) {
+      await this.tagsRepository.update(id, updateTagDto);
+    } else {
+      throw new HttpException('Tag not found!', HttpStatus.BAD_REQUEST);
+    }
+    return this.tagsRepository.findOneBy({ tagid: id });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} tag`;
+    return this.tagsRepository.delete(id);
   }
 }
