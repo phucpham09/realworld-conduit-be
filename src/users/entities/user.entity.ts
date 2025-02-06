@@ -1,4 +1,5 @@
 import { Article } from 'src/articles/entities/article.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 import { RegistryDate } from 'src/utils/common/registryDate';
 import { Roles } from 'src/utils/common/user-roles.enum';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -23,4 +24,7 @@ export class User {
 
   @OneToMany(() => Article, (article) => article.user)
   articles: Article[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
 }
