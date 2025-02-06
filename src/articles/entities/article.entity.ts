@@ -41,4 +41,8 @@ export class Article {
 
   @OneToMany(() => Comment, (comment) => comment.article)
   comments: Comment[];
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  likedByUsers: User[];
 }

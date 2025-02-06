@@ -35,7 +35,9 @@ export class ArticlesService {
   }
 
   findAll() {
-    return this.articleRepository.find({ relations: ['user', 'tags'] });
+    return this.articleRepository.find({
+      relations: ['user', 'tags', 'comments'],
+    });
   }
 
   findOne({ id }: IdDto) {
@@ -43,20 +45,36 @@ export class ArticlesService {
   }
 
   async update({ id }: IdDto, updateArticleDto: UpdateArticleDto) {
-    const article = await this.articleRepository.findOneBy({ articleid: id });
-    const tags = await this.tagRepository.findBy({
-      tagid: In(updateArticleDto.tagIds),
+    const article = await this.articleRepository.findOne({
+      where: { articleid: id },
+      relations: ['tags', 'likedByUsers'],
     });
+
+    const updatedFields: Partial<Article> = { ...updateArticleDto };
+
+    if (updateArticleDto.tagIds) {
+      updatedFields.tags = await this.tagRepository.findBy({
+        tagid: In(updateArticleDto.tagIds),
+      });
+    }
+    if (updateArticleDto.likedBy) {
+      updatedFields.likedByUsers = await this.userRepository.findBy({
+        userid: In(updateArticleDto.likedBy),
+      });
+    }
+
     if (article) {
       await this.articleRepository.save({
         ...article,
-        ...updateArticleDto,
-        tags,
+        ...updatedFields,
       });
     } else {
       throw new HttpException('Article Not Found', HttpStatus.BAD_REQUEST);
     }
-    return await this.articleRepository.findOne({ where: { articleid: id } });
+    return await this.articleRepository.findOne({
+      where: { articleid: id },
+      relations: ['user', 'likedByUsers', 'tags'],
+    });
   }
 
   async remove({ id }: IdDto) {
