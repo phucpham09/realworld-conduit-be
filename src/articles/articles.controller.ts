@@ -6,39 +6,42 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Public } from 'src/utils/decorators/public.decorator';
+import { IdDto } from 'src/utils/dto/id.dto';
 
-@Public()
 @Controller('articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articlesService.create(createArticleDto);
+  async create(@Request() req, @Body() createArticleDto: CreateArticleDto) {
+    return await this.articlesService.create(req.user.userid, createArticleDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.articlesService.findAll();
   }
 
+  @Public()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.articlesService.findOne(+id);
+  findOne(@Param() { id }: IdDto) {
+    return this.articlesService.findOne({ id });
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
-    return this.articlesService.update(+id, updateArticleDto);
+  update(@Param() { id }: IdDto, @Body() updateArticleDto: UpdateArticleDto) {
+    return this.articlesService.update({ id }, updateArticleDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.articlesService.remove(+id);
+  remove(@Param() { id }: IdDto) {
+    return this.articlesService.remove({ id });
   }
 }
