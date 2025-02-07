@@ -7,6 +7,7 @@ import { Article } from './entities/article.entity';
 import { IdDto } from 'src/utils/dto/id.dto';
 import { User } from 'src/users/entities/user.entity';
 import { Tag } from 'src/tags/entities/tag.entity';
+import { Pagination } from 'src/utils/dto/pagination.dto';
 
 @Injectable()
 export class ArticlesService {
@@ -34,12 +35,16 @@ export class ArticlesService {
     });
   }
 
-  async findAll(limit: number, offset: number) {
-    return this.articleRepository.find({
+  async findAll(pagination: Pagination) {
+    const [, totalArticle] = await this.articleRepository.findAndCount();
+    const totalPage = Math.floor(totalArticle / pagination.limit) + 1;
+    const offset = (pagination.currentPage - 1) * pagination.limit;
+    const article = await this.articleRepository.find({
       skip: offset,
-      take: limit || 10,
+      take: pagination.limit,
       relations: ['user', 'tags', 'comments'],
     });
+    return { article, totalPage };
   }
 
   findOne({ id }: IdDto) {

@@ -1,8 +1,10 @@
-import { IsInt } from 'class-validator';
+import { IsInt, IsOptional } from 'class-validator';
 
 export class Pagination {
   @IsInt()
-  readonly limit: number;
+  @IsOptional()
+  readonly limit: number = 6;
   @IsInt()
-  readonly offset: number;
+  @IsOptional()
+  readonly currentPage: number = 1;
 }

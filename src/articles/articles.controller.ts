@@ -14,6 +14,7 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { Public } from 'src/utils/decorators/public.decorator';
 import { IdDto } from 'src/utils/dto/id.dto';
+import { Pagination } from 'src/utils/dto/pagination.dto';
 
 @Controller('articles')
 export class ArticlesController {
@@ -26,8 +27,8 @@ export class ArticlesController {
 
   @Public()
   @Get()
-  findAll(@Query('limit') limit: number, @Query('offset') offset: number) {
-    return this.articlesService.findAll(limit, offset);
+  findAll(@Query() pagination: Pagination) {
+    return this.articlesService.findAll(pagination);
   }
 
   @Public()
