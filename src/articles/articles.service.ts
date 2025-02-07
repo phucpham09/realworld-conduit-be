@@ -38,7 +38,7 @@ export class ArticlesService {
   async findAll(pagination: Pagination) {
     const [, totalArticle] = await this.articleRepository.findAndCount();
     const totalPage = Math.floor(totalArticle / pagination.limit) + 1;
-    const offset = (pagination.currentPage - 1) * pagination.limit;
+    const offset = (pagination.page - 1) * pagination.limit;
     const article = await this.articleRepository.find({
       skip: offset,
       take: pagination.limit,

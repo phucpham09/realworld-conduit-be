@@ -6,5 +6,5 @@ export class Pagination {
   readonly limit: number = 6;
   @IsInt()
   @IsOptional()
-  readonly currentPage: number = 1;
+  readonly page: number = 1;
 }
