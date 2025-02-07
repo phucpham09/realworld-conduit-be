@@ -34,8 +34,10 @@ export class ArticlesService {
     });
   }
 
-  findAll() {
+  async findAll(limit: number, offset: number) {
     return this.articleRepository.find({
+      skip: offset,
+      take: limit || 10,
       relations: ['user', 'tags', 'comments'],
     });
   }

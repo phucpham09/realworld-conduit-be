@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Request,
+  Query,
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -22,8 +23,8 @@ export class CommentsController {
   }
 
   @Get()
-  findAll() {
-    return this.commentsService.findAll();
+  findAll(@Query('limit') limit: number, @Query('offset') offset: number) {
+    return this.commentsService.findAll(limit, offset);
   }
 
   @Get(':id')

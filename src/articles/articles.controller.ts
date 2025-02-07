@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Request,
+  Query,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
@@ -25,8 +26,8 @@ export class ArticlesController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.articlesService.findAll();
+  findAll(@Query('limit') limit: number, @Query('offset') offset: number) {
+    return this.articlesService.findAll(limit, offset);
   }
 
   @Public()

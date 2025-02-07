@@ -34,8 +34,12 @@ export class CommentsService {
     });
   }
 
-  findAll() {
-    return this.commentRepository.find({ relations: ['user', 'article'] });
+  findAll(limit: number, offset: number) {
+    return this.commentRepository.find({
+      relations: ['user', 'article'],
+      skip: offset,
+      take: limit,
+    });
   }
 
   async findOne(id: number) {
