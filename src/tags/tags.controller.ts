@@ -27,6 +27,7 @@ export class TagsController {
     return this.tagsService.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.tagsService.findOne(+id);

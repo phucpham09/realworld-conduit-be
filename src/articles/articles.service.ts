@@ -48,7 +48,10 @@ export class ArticlesService {
   }
 
   findOne({ id }: IdDto) {
-    return this.articleRepository.findOneBy({ articleid: id });
+    return this.articleRepository.findOne({
+      where: { articleid: id },
+      relations: ['user', 'tags', 'comments'],
+    });
   }
 
   async update({ id }: IdDto, updateArticleDto: UpdateArticleDto) {
