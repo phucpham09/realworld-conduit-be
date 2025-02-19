@@ -10,6 +10,7 @@ import {
 import { TagsService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
+import { Public } from 'src/utils/decorators/public.decorator';
 
 @Controller('tags')
 export class TagsController {
@@ -20,6 +21,7 @@ export class TagsController {
     return this.tagsService.create(createTagDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.tagsService.findAll();

@@ -12,6 +12,7 @@ import {
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { Public } from 'src/utils/decorators/public.decorator';
 
 @Controller('comments')
 export class CommentsController {
@@ -22,6 +23,7 @@ export class CommentsController {
     return this.commentsService.create(req.user.userid, createCommentDto);
   }
 
+  @Public()
   @Get()
   findAll(@Query('limit') limit: number, @Query('offset') offset: number) {
     return this.commentsService.findAll(limit, offset);
