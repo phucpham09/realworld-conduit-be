@@ -22,7 +22,7 @@ export class ArticlesService {
   async create(id: number, createArticleDto: CreateArticleDto) {
     const user = await this.userRepository.findOneBy({ userid: id });
     const tags = await this.tagRepository.findBy({
-      tagid: In(createArticleDto.tagIds),
+      name: In(createArticleDto.tagName),
     });
     const res = await this.articleRepository.save({
       ...createArticleDto,
@@ -62,9 +62,9 @@ export class ArticlesService {
 
     const updatedFields: Partial<Article> = { ...updateArticleDto };
 
-    if (updateArticleDto.tagIds) {
+    if (updateArticleDto.tagName) {
       updatedFields.tags = await this.tagRepository.findBy({
-        tagid: In(updateArticleDto.tagIds),
+        tagid: In(updateArticleDto.tagName),
       });
     }
     if (updateArticleDto.likedBy) {
