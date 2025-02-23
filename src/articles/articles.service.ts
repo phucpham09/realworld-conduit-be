@@ -42,7 +42,7 @@ export class ArticlesService {
     const article = await this.articleRepository.find({
       skip: offset,
       take: pagination.limit,
-      relations: ['user', 'tags', 'comments'],
+      relations: ['user', 'tags', 'comments', 'comments.user'],
     });
     return { article, totalPage };
   }
@@ -50,7 +50,7 @@ export class ArticlesService {
   findOne({ id }: IdDto) {
     return this.articleRepository.findOne({
       where: { articleid: id },
-      relations: ['user', 'tags', 'comments'],
+      relations: ['user', 'tags', 'comments', 'comments.user'],
     });
   }
 
