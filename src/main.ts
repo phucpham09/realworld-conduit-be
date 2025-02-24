@@ -8,6 +8,7 @@ async function bootstrap() {
     origin: [
       'https://realworld-conduit-fe.vercel.app',
       'http://localhost:3000',
+      'https://phucbk03.id.vn/',
     ],
     credentials: true,
   });
