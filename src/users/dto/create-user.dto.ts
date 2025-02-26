@@ -1,5 +1,5 @@
 import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
-import { Roles } from 'src/utils/common/user-roles.enum';
+import { Role } from 'src/utils/common/user-roles.enum';
 
 export class CreateUserDto {
   @IsString()
@@ -19,7 +19,7 @@ export class CreateUserDto {
   @IsOptional()
   bio: string;
 
-  @IsEnum(Roles)
+  @IsEnum(Role)
   @IsOptional()
-  role: Roles = Roles.USER;
+  role: Role = Role.USER;
 }

@@ -1,7 +1,7 @@
 import { Article } from 'src/articles/entities/article.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
 import { RegistryDate } from 'src/utils/common/registryDate';
-import { Roles } from 'src/utils/common/user-roles.enum';
+import { Role } from 'src/utils/common/user-roles.enum';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class User {
@@ -18,7 +18,7 @@ export class User {
   @Column(null, { nullable: true })
   bio: string;
   @Column()
-  role: Roles;
+  role: Role;
   @Column(() => RegistryDate)
   registryDate: RegistryDate;
 

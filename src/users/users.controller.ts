@@ -12,6 +12,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IdDto } from 'src/utils/dto/id.dto';
+import { Roles } from 'src/utils/decorators/roles.decorator';
+import { Role } from 'src/utils/common/user-roles.enum';
 
 @Controller('users')
 export class UsersController {
@@ -22,6 +24,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Roles(Role.ADMIN)
   @Get()
   findAll() {
     return this.usersService.findAll();
