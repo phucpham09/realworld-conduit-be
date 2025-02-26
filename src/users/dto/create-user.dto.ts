@@ -12,8 +12,8 @@ export class CreateUserDto {
   password: string;
 
   @IsString()
-  @IsOptional()
-  imageUrl: string;
+  imageUrl: string =
+    'https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png';
 
   @IsString()
   @IsOptional()
