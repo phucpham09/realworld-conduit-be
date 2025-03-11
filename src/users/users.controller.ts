@@ -14,6 +14,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { IdDto } from 'src/utils/dto/id.dto';
 import { Roles } from 'src/utils/decorators/roles.decorator';
 import { Role } from 'src/utils/common/user-roles.enum';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -26,6 +27,8 @@ export class UsersController {
 
   @Roles(Role.ADMIN)
   @Get()
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiResponse({ status: 200, description: 'Return all users.' })
   findAll() {
     return this.usersService.findAll();
   }
